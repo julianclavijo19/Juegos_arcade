@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd arcade-modern && npm run build",
+  "outputDirectory": "arcade-modern/dist",
+  "installCommand": "cd arcade-modern && npm install",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
