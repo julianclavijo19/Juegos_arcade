@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tres en Raya - Arcade Retro</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .tictactoe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-template-rows: repeat(3, 150px);
+            gap: 10px;
+            margin: 30px auto;
+            max-width: fit-content;
+        }
+        
+        .cell {
+            background: linear-gradient(145deg, #2d2d44, #1a1a2e);
+            border: 3px solid #3a86ff;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cell::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(58, 134, 255, 0.3),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+        
+        .cell:hover:not(.taken)::before {
+            left: 100%;
+        }
+        
+        .cell:hover:not(.taken) {
+            border-color: #ff006e;
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .cell.taken {
+            cursor: not-allowed;
+        }
+        
+        .cell.x {
+            color: #ff006e;
+            text-shadow: 0 0 20px #ff006e;
+            animation: placeToken 0.3s ease-out;
+        }
+        
+        .cell.o {
+            color: #06ffa5;
+            text-shadow: 0 0 20px #06ffa5;
+            animation: placeToken 0.3s ease-out;
+        }
+        
+        @keyframes placeToken {
+            0% {
+                transform: scale(0) rotate(180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(90deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+        
+        .cell.winning {
+            background: linear-gradient(145deg, #ffb703, #ff006e);
+            animation: winningCell 0.5s ease infinite alternate;
+        }
+        
+        @keyframes winningCell {
+            0% {
+                box-shadow: 0 0 20px #ffb703;
+            }
+            100% {
+                box-shadow: 0 0 40px #ff006e;
+            }
+        }
+        
+        .turn-indicator {
+            text-align: center;
+            font-size: 2em;
+            color: #ffb703;
+            margin: 20px 0;
+            text-shadow: 0 0 20px #ffb703;
+        }
+        
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(26, 26, 46, 0.8);
+            border: 3px solid #3a86ff;
+            border-radius: 15px;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-item h3 {
+            color: #ffb703;
+            margin-bottom: 10px;
+        }
+        
+        .score-value {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .score-x {
+            color: #ff006e;
+            text-shadow: 0 0 15px #ff006e;
+        }
+        
+        .score-o {
+            color: #06ffa5;
+            text-shadow: 0 0 15px #06ffa5;
+        }
+        
+        .score-tie {
+            color: #ffb703;
+            text-shadow: 0 0 15px #ffb703;
+        }
+        
+        @media (max-width: 768px) {
+            .tictactoe-board {
+                grid-template-columns: repeat(3, 100px);
+                grid-template-rows: repeat(3, 100px);
+                gap: 5px;
+            }
+            
+            .cell {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>⭕️❌ TRES EN RAYA</h1>
+            <button class="back-button" onclick="window.location.href='../../index.html'">← VOLVER AL MENÚ</button>
+        </div>
+        
+        <div class="game-settings" id="gameSettings">
+            <h2>CONFIGURACIÓN</h2>
+            <div class="setting-group">
+                <label>MODO DE JUEGO:</label>
+                <select id="gameMode">
+                    <option value="ai">JUGADOR vs IA</option>
+                    <option value="2player">2 JUGADORES</option>
+                </select>
+            </div>
+            <div class="setting-group" id="difficultyGroup">
+                <label>DIFICULTAD IA:</label>
+                <select id="difficulty">
+                    <option value="easy">FÁCIL</option>
+                    <option value="medium">MEDIO</option>
+                    <option value="hard">IMPOSIBLE</option>
+                </select>
+            </div>
+            <button class="start-button" id="startButton">INICIAR JUEGO</button>
+        </div>
+        
+        <div class="game-board" id="gameBoard" style="display: none;">
+            <div class="score-board">
+                <div class="score-item">
+                    <h3>JUGADOR X</h3>
+                    <div class="score-value score-x" id="scoreX">0</div>
+                </div>
+                <div class="score-item">
+                    <h3>EMPATES</h3>
+                    <div class="score-value score-tie" id="scoreTie">0</div>
+                </div>
+                <div class="score-item">
+                    <h3 id="player2Label">JUGADOR O</h3>
+                    <div class="score-value score-o" id="scoreO">0</div>
+                </div>
+            </div>
+            
+            <div class="turn-indicator" id="turnIndicator">TURNO DE X</div>
+            
+            <div class="tictactoe-board" id="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="back-button" id="resetButton">NUEVA PARTIDA</button>
+                <button class="back-button" id="changeSettingsButton">CAMBIAR CONFIGURACIÓN</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../js/preventScroll.js"></script>
+    <script src="tictactoe.js"></script>
+</body>
+</html>
+

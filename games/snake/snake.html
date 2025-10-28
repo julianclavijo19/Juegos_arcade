@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake - Arcade Retro</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .controls-info {
+            background: rgba(26, 26, 46, 0.8);
+            border: 3px solid #3a86ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .controls-info h3 {
+            color: #ffb703;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .controls-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .controls-info li {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(58, 134, 255, 0.2);
+            border-radius: 5px;
+        }
+        
+        .mobile-controls {
+            display: none;
+            grid-template-columns: repeat(3, 80px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .mobile-btn {
+            background: linear-gradient(145deg, #3a86ff, #2d6fd6);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 2em;
+            padding: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.5);
+        }
+        
+        .mobile-btn:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: grid;
+            }
+            
+            canvas {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🐍 SNAKE</h1>
+            <button class="back-button" onclick="window.location.href='../../index.html'">← VOLVER AL MENÚ</button>
+        </div>
+        
+        <div class="game-settings" id="gameSettings">
+            <h2>CONFIGURACIÓN</h2>
+            <div class="setting-group">
+                <label>DIFICULTAD:</label>
+                <select id="difficulty">
+                    <option value="easy">FÁCIL (Lento)</option>
+                    <option value="medium" selected>MEDIO (Normal)</option>
+                    <option value="hard">DIFÍCIL (Rápido)</option>
+                </select>
+            </div>
+            <button class="start-button" id="startButton">INICIAR JUEGO</button>
+        </div>
+        
+        <div class="game-board" id="gameBoard" style="display: none;">
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="info-label">PUNTOS</span>
+                    <span class="info-value" id="score">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">RÉCORD</span>
+                    <span class="info-value" id="highScore">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">LONGITUD</span>
+                    <span class="info-value" id="length">3</span>
+                </div>
+            </div>
+            
+            <canvas id="snakeCanvas" width="600" height="600"></canvas>
+            
+            <div class="mobile-controls">
+                <div></div>
+                <button class="mobile-btn" id="upBtn">⬆️</button>
+                <div></div>
+                <button class="mobile-btn" id="leftBtn">⬅️</button>
+                <div></div>
+                <button class="mobile-btn" id="rightBtn">➡️</button>
+                <div></div>
+                <button class="mobile-btn" id="downBtn">⬇️</button>
+                <div></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="back-button" id="pauseButton">PAUSAR</button>
+            </div>
+        </div>
+        
+        <div class="controls-info">
+            <h3>🎮 CONTROLES</h3>
+            <ul>
+                <li>⬅️ FLECHA IZQUIERDA - Girar izquierda</li>
+                <li>➡️ FLECHA DERECHA - Girar derecha</li>
+                <li>⬆️ FLECHA ARRIBA - Ir arriba</li>
+                <li>⬇️ FLECHA ABAJO - Ir abajo</li>
+                <li>⏸️ P - Pausar/Reanudar</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="../../js/preventScroll.js"></script>
+    <script src="snake.js"></script>
+</body>
+</html>
+

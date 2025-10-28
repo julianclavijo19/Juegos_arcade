@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Invaders - Arcade Retro</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .lives-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .life-icon {
+            font-size: 2em;
+        }
+        
+        .controls-info {
+            background: rgba(26, 26, 46, 0.8);
+            border: 3px solid #3a86ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .controls-info h3 {
+            color: #ffb703;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .controls-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .controls-info li {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(58, 134, 255, 0.2);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>👾 SPACE INVADERS</h1>
+            <button class="back-button" onclick="window.location.href='../../index.html'">← VOLVER AL MENÚ</button>
+        </div>
+        
+        <div class="game-settings" id="gameSettings">
+            <h2>CONFIGURACIÓN</h2>
+            <div class="setting-group">
+                <label>DIFICULTAD:</label>
+                <select id="difficulty">
+                    <option value="easy">FÁCIL (Pocos enemigos)</option>
+                    <option value="medium" selected>MEDIO (Normal)</option>
+                    <option value="hard">DIFÍCIL (Muchos enemigos)</option>
+                </select>
+            </div>
+            <button class="start-button" id="startButton">INICIAR JUEGO</button>
+        </div>
+        
+        <div class="game-board" id="gameBoard" style="display: none;">
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="info-label">PUNTOS</span>
+                    <span class="info-value" id="score">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">NIVEL</span>
+                    <span class="info-value" id="level">1</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">RÉCORD</span>
+                    <span class="info-value" id="highScore">0</span>
+                </div>
+            </div>
+            
+            <div class="lives-display" id="livesDisplay"></div>
+            
+            <canvas id="spaceCanvas" width="800" height="600"></canvas>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="back-button" id="pauseButton">PAUSAR</button>
+            </div>
+        </div>
+        
+            <div class="controls-info">
+            <h3>🎮 CONTROLES</h3>
+            <ul>
+                <li>⬅️ FLECHA IZQUIERDA o A - Mover izquierda</li>
+                <li>➡️ FLECHA DERECHA o D - Mover derecha</li>
+                <li>🎯 ESPACIO - Disparar</li>
+                <li>⏸️ P - Pausar/Reanudar</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="../../js/preventScroll.js"></script>
+    <script src="spaceinvaders.js"></script>
+</body>
+</html>
+
